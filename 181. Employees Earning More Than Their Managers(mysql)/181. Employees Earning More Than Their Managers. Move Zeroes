@@ -1,0 +1,10 @@
+# Write your MySQL query statement below
+SELECT
+  Name as Employee
+FROM
+  Employee as a
+WHERE
+  ManagerId is not null
+  AND Salary >    (SELECT Salary 
+                   FROM Employee as b
+                   WHERE a.ManagerId = b.Id)
