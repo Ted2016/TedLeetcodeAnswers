@@ -1,0 +1,36 @@
+class Solution {
+public:
+    string decodeString(string s) {
+        string result;
+        stack<char> stk;
+        int cur = 0,  num = 0;
+        while (cur < s.size()) {
+            if(isalpha(s[cur])) {
+                result.push_back(s[cur++]);
+            } else if (isdigit(s[cur])) {
+                num = s[cur]-'0';
+                while(++cur < s.size() && isdigit(s[cur])) {
+                    num *= 10;
+                    num += s[cur]-'0';
+                }
+            } else {
+                string tmp;
+                stk.push(s[cur]);
+                while(++cur < s.size() && !stk.empty()) {
+                    if(s[cur] == '[') {
+                        stk.push('[');
+                    } else if (s[cur] == ']') {
+                        stk.pop();
+                    } 
+                    tmp.push_back(s[cur]);
+                }
+                tmp.pop_back();
+                string subStr = decodeString(tmp);
+                for(int i = 0; i < num; i++) {
+                    result += subStr;
+                }
+            }
+        }
+        return result;
+    }
+};
